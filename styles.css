@@ -1,0 +1,335 @@
+@font-face {
+    font-family: "Graphik Web Semibold Regular";
+    src: url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.eot");
+    src: url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.svg#Graphik Web Semibold Regular")format("svg");
+}
+
+@font-face {
+    font-family: "Tiempos Headline Bold";
+    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot");
+    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.svg#Tiempos Headline Bold")format("svg");
+}
+
+body {
+    font-family: "Graphik Web Semibold Regular";
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Impede a rolagem horizontal */
+    background-color:rgb(0, 0, 0);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: none; /* Sem cor de fundo */
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo svg {
+    height: 26px; /* Altura ajustada para combinar com o tamanho da fonte */
+    margin-right: 10px;
+}
+
+.navbar .logo span {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Graphik Web Semibold Regular";
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin: 0 10px;
+}
+
+.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.navbar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.navbar .search-bar {
+    position: relative;
+    flex: 1; /* Expande para ocupar o espaço restante */
+    max-width: 100px; /* Largura máxima para desktop */
+    margin-right: 150px;
+}
+
+.navbar .search-bar input {
+    padding: 5px 30px 5px 10px; /* Reduzido o padding para ocupar menos espaço */
+    width: 100%; /* Ocupa toda a largura do container */
+    border-radius: 20px;
+    border: 0px solid whitesmoke;
+    background-color: transparent; /* Campo de pesquisa inicialmente transparente */
+    transition: background-color 0.3s ease; /* Transição suave para o hover */
+}
+
+.navbar .search-bar input:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo branca com transparência ao passar o mouse */
+}
+
+.navbar .search-icon {
+    position: absolute;
+    top: 50%;
+    right: -35px; /* Ajuste a posição do ícone */
+    transform: translateY(-50%);
+    width: 20px; /* Largura do ícone */
+    height: 20px; /* Altura do ícone */
+    background-image: url('search-icon.png'); /* Caminho para o ícone PNG */
+    background-size: cover; /* Ajusta o tamanho do ícone */
+    cursor: pointer; /* Transforma o cursor em uma mãozinha ao passar sobre o ícone */
+}
+
+/* Header */
+.header {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.header img {
+    width: 100%;
+    height: auto;
+}
+
+.header .overlay-text {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none; /* Fundo transparente */
+    padding: 40px;
+    font-size: 30px; /* Tamanho da fonte reduzido */
+    font-family: "Tiempos Headline Bold";
+    color: white; /* Cor do texto */
+}
+
+.vertical-link {
+    text-decoration: none; /* Remove a decoração padrão do link */
+}
+
+.vertical-text {
+    display: inline-block;
+    background-color: transparent; /* Cor de fundo transparente */
+    color: rgba(255, 255, 255, 0.5); /* Cor inicial com 50% de opacidade */
+    bottom: 10%;
+    right: 50%;
+    padding: 10px;
+    transform: translateY(-1100%) translateX(220%) rotate(-90deg); /* Inclinação do texto */
+    opacity: 1;
+    transition: color 0.3s, opacity 0.3s; /* Transição para a cor e opacidade */
+}
+
+.vertical-text:hover {
+    color: #ffffff; /* Cor branca ao passar o mouse */
+}
+
+.vertical-text:active {
+    background-color: transparent; /* Fundo transparente ao clicar */
+    color: #ffffff; /* Cor branca ao clicar */
+}
+
+
+/* Call to Action Button */
+.cta-button {
+    display: block;
+    width: 250px;
+    margin: 30px auto 0;
+    padding: 15px;
+    text-align: center;
+    background-color: orange;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px; /* Tamanho da fonte reduzido */
+    font-weight: bold;
+}
+
+/* Series Examples */
+.series-examples {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 50px;
+    margin-bottom: 0;
+    padding: 20px;
+}
+
+.series-examples .series {
+    position: relative;
+    flex-grow: 1; /* Faz com que cada série ocupe o espaço disponível */
+    flex-basis: 20%; /* Define o tamanho inicial antes da distribuição de espaço */
+    margin-bottom: 20px;
+    overflow: hidden; /* Para evitar que .info ultrapasse os limites da .series */
+}
+
+.series-examples .series img {
+    width: 250px; /* Largura fixa */
+    height: 380px; /* Altura fixa */
+    border-radius: 10px;
+    transition: transform 0.3s ease-out; /* Adiciona uma transição suave no hover */
+}
+
+.series-examples .series .info {
+    position: absolute;
+    bottom: 150px;
+    left: 25px;
+    right: 25px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    opacity: 0; /* Inicia oculto */
+    transition: opacity 0.3s ease-out; /* Transição suave para o efeito de aparecer */
+
+    /* Adicione estas linhas para centralizar o conteúdo */
+ 
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.series-examples .series:hover .info {
+    opacity: 1; /* Ao passar o mouse, a .info torna-se visível */
+}
+
+/* Ajustes adicionais */
+.series-examples .series .info p {
+    margin: 0;
+}
+
+.series-examples .series:hover img {
+    transform: scale(1.1); /* Efeito de escala no hover para destacar a imagem */
+}
+
+
+/* Footer */
+.footer {
+    background-color: none;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 0px;
+}
+
+.footer a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+/* Estilos para o about-section */
+
+.about-section {
+    padding: 50px;
+    background-color: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.about-section h2 {
+    font-size: 36px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.about-section h3 {
+    font-size: 24px;
+    color: #666;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* CSS adicional para o diálogo de criar conta */
+.dialog {
+    display: none; /* Inicia oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog.active {
+    display: flex; /* Torna visível quando possui a classe active */
+}
+
+#signup-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 200px;
+    width: 100%;
+    text-align: center;
+}
+
+#signup-form button {
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    .navbar .search-bar {
+        max-width: 200px; /* Reduz a largura máxima para telas menores */
+    }
+
+    .navbar .search-bar input {
+        padding: 5px 10px; /* Reduz mais o padding para economizar espaço */
+        font-size: 12px; /* Tamanho da fonte ainda mais reduzido */
+    }
+
+    .navbar .search-bar .icon {
+        font-size: 16px; /* Tamanho do ícone reduzido para telas menores */
+    }
+
+    .header .overlay-text {
+        font-size: 14px; /* Reduz ainda mais o tamanho da fonte no header */
+    }
+
+    .cta-button {
+        width: 150px; /* Reduz a largura do botão de call to action */
+        font-size: 14px; /* Reduz o tamanho da fonte do botão */
+    }
+
+    .series-examples .series {
+        width: 100%; /* Ocupa a largura total em telas menores */
+    }
+}
