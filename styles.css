@@ -271,7 +271,7 @@ body {
 
 /* CSS adicional para o diálogo de criar conta */
 .dialog {
-    display: none; /* Inicia oculto */
+    display: none;  /*Inicia oculto */
     position: fixed;
     top: 0;
     left: 0;
@@ -280,11 +280,29 @@ body {
     background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
     z-index: 1000;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
 }
 
 .dialog.active {
     display: flex; /* Torna visível quando possui a classe active */
+}
+#login-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 200px;
+    width: 100%;
+    text-align: center;
+}
+
+#login-form button {
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 #signup-form {
