@@ -17,14 +17,10 @@
         <ul>
             <li><a href="index.html">Início</a></li>
             <li>
-                <a href="#" id="signin-link">Entrar</a>
-            </li>
-            
-            <li>
-                <a href="signin.html">Criar Conta</a>
+                <a href="#" id="login-link">Entrar</a>
             </li>
             <li>
-                <a href="#">Séries</a>
+                <a href="#" id="create-account-link">Criar Conta</a>
             </li>
         </ul>
         <div class="search-bar">
@@ -80,31 +76,37 @@
         </div>
     </div>
 
-    <div id="login-dialog" class="dialog">
-        <form id="login-form" class="login-form" method="POST" action="login.php">
-            <h2>Entrar</h2>
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br>
-            <button type="submit">Entrar</button>
-        </form>
+    <!-- Dialog de Criação de Conta -->
+    <div id="create-account-dialog" class="login-dialog">
+        <div class="login-dialog-content">
+            <span class="close-button">&times;</span>
+            <h2>Criar Conta</h2>
+            <form id="create-account-form" action="signup.php" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Criar Conta</button>
+            </form>
+        </div>
     </div>
-    
 
-    <div id="signup-dialog" class="dialog">
-        <form id="signup-form" class="signup-form" action="signup.php" method="POST" aria-labelledby="signup-title">
-            <h2 id="signup-title">Criar Conta</h2>
-            <label for="email">E-mail:</label><br>
-            <input type="email" id="email" name="email" required><br>
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br>
-            <button type="submit">Criar Conta</button>
-        </form>
+    <!-- Dialog de Login -->
+    <div id="login-dialog" class="login-dialog">
+        <div class="login-dialog-content">
+            <span class="close-button">&times;</span>
+            <h2 id="signup-title">Entrar</h2>
+            <form id="login-form" action="login.php" method="POST">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
     </div>
-    
 
     <footer class="footer">
         <p>&copy; 2024 MySeriesList Limited. Todos os direitos reservados.</p>
