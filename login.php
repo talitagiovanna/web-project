@@ -1,70 +1,61 @@
 <?php
-// Ativar exibição de erros para debug
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+session_start();
 
 // Incluir arquivo de conexão com o banco de dados
 require 'database.php';
 
 // Verificar se a requisição é POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verifica se os campos de usuário e senha foram enviados
-    if (isset($_POST['username']) && isset($_POST['password'])) {
-        // Obtém os dados enviados pelo formulário
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    // Obter dados do formulário
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        // Consulta o banco de dados para verificar o usuário
+    // Validar os campos
+    if (empty($username)) {
+        $error_message = "Nome de usuário é obrigatório.";
+    } elseif (empty($password)) {
+        $error_message = "Senha é obrigatória.";
+    } else {
+        // Verificar se o usuário existe
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Verifica se o usuário existe no banco de dados
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_assoc();
-            // Verifica se a senha está correta
-            if (password_verify($password, $row['password'])) {
-                // Credenciais corretas, retorna uma resposta de sucesso em JSON
-                $response = array(
-                    "success" => true,
-                    "message" => "Login bem-sucedido!"
-                );
+        if ($result->num_rows > 0) {
+            // Usuário encontrado, verificar a senha
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                // Senha correta, redirecionar para welcome.html
+                $_SESSION['username'] = $username;
+                header("Location: welcome.html");
+                exit();
             } else {
-                // Senha incorreta, retorna uma resposta de erro em JSON
-                $response = array(
-                    "success" => false,
-                    "message" => "Senha incorreta. Tente novamente."
-                );
+                $error_message = "Senha incorreta.";
             }
         } else {
-            // Usuário não encontrado, retorna uma resposta de erro em JSON
-            $response = array(
-                "success" => false,
-                "message" => "Usuário não encontrado."
-            );
+            $error_message = "Usuário não está cadastrado.";
         }
-
         $stmt->close();
-    } else {
-        // Campos de usuário e senha não foram enviados, retorna uma resposta de erro em JSON
-        $response = array(
-            "success" => false,
-            "message" => "Campos de usuário e senha não foram fornecidos."
-        );
     }
+    $conn->close();
 } else {
-    // A solicitação não é do tipo POST, retorna uma resposta de erro em JSON
-    $response = array(
-        "success" => false,
-        "message" => "A solicitação deve ser do tipo POST."
-    );
+    $error_message = "Método de requisição inválido.";
 }
-
-// Retorna a resposta em formato JSON
-header('Content-Type: application/json');
-echo json_encode($response);
 ?>
-
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro de Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-dialog-content">
+        <h2>Erro de Login</h2>
+        <p style="color: red;"><?php echo $error_message; ?></p>
+        <a href="index.html">Voltar</a>
+    </div>
+</body>
+</html>

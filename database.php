@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "ROOT";  // Adicione a senha do seu banco de dados aqui
+$password = "ROOT";
 $dbname = "myserieslist";
 
 // Create connection
