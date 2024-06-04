@@ -1,0 +1,240 @@
+@font-face {
+    font-family: "Graphik Web Semibold Regular";
+    src: url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.eot");
+    src: url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.svg#Graphik Web Semibold Regular")format("svg");
+}
+
+@font-face {
+    font-family: "Tiempos Headline Bold";
+    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot");
+    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.svg#Tiempos Headline Bold")format("svg");
+}
+
+body {
+    font-family: "Graphik Web Semibold Regular";
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Impede a rolagem horizontal */
+    background-color:rgb(0, 0, 0);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: none; /* Sem cor de fundo */
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo svg {
+    height: 26px; /* Altura ajustada para combinar com o tamanho da fonte */
+    margin-right: 10px;
+}
+
+.navbar .logo span {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Graphik Web Semibold Regular";
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin: 0 10px;
+}
+
+.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.navbar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.navbar .search-bar {
+    position: relative;
+    flex: 1; /* Expande para ocupar o espaço restante */
+    max-width: 100px; /* Largura máxima para desktop */
+    margin-right: 150px;
+}
+
+.navbar .search-bar input {
+    padding: 5px 30px 5px 10px; /* Reduzido o padding para ocupar menos espaço */
+    width: 100%; /* Ocupa toda a largura do container */
+    border-radius: 20px;
+    border: 0px solid whitesmoke;
+    background-color: transparent; /* Campo de pesquisa inicialmente transparente */
+    transition: background-color 0.3s ease; /* Transição suave para o hover */
+}
+
+.navbar .search-bar input:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo branca com transparência ao passar o mouse */
+}
+
+.navbar .search-icon {
+    position: absolute;
+    top: 50%;
+    right: -35px; /* Ajuste a posição do ícone */
+    transform: translateY(-50%);
+    width: 20px; /* Largura do ícone */
+    height: 20px; /* Altura do ícone */
+    background-image: url('search-icon.png'); /* Caminho para o ícone PNG */
+    background-size: cover; /* Ajusta o tamanho do ícone */
+    cursor: pointer; /* Transforma o cursor em uma mãozinha ao passar sobre o ícone */
+}
+/* Estilos do cabeçalho */
+header {
+    background: url('assets/one-piece.jpg') no-repeat center center/cover;
+    color: #fff;
+    padding: 10rem 0;
+    text-align: center;
+    position: relative;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('assets/one-piece.webp');
+    background-size: contain; /* Exibir a imagem inteira */
+    background-position: center; /* Centralizar a imagem */
+    z-index: -1; /* Enviar para trás do conteúdo */
+}
+
+header h1, header p {
+    position: relative;
+    z-index: 2;
+}
+
+/* Estilos do conteúdo principal */
+main {
+    padding: 2rem;
+}
+
+main section {
+    margin-bottom: 2rem;
+}
+
+main h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+/* Estilos específicos para a nova página */
+.referencia-content {
+    background: none;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.referencia-content h2 {
+    color: white;
+}
+
+.referencia-content p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+/* Estilos para o carrossel de imagens */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.carousel-inner {
+    display: flex;
+    width: 100%; /* Garantir que o conteúdo do carrossel ocupe toda a largura disponível */
+}
+
+.carousel-item {
+    flex: 0 0 25%; /* Definir a largura de cada item para 25% do contêiner */
+    position: relative;
+    padding-right: 2px;
+}
+
+.carousel-item img {
+    width: 100%; /* Fazer com que a imagem ocupe todo o espaço dentro do item */
+    height: 100%; /* Garantir que a altura seja ajustada automaticamente para manter a proporção da imagem */
+    border-radius: 10px;
+}
+
+.carousel-item:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.carousel-nav button {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff; /* cor de do tracinho de dentro do botão do carrossel*/
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.carousel-nav button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-categories {
+    margin-bottom: 2rem;
+}
+
+.carousel-categories h3 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.carousel-categories .carousel {
+    margin-bottom: 2rem;
+}
+/*--------------------------------------------------------------------*/
+
+
