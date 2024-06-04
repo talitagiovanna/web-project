@@ -186,17 +186,17 @@ body {
 
 .series-examples .series {
     position: relative;
-    flex-grow: 1; /* Faz com que cada série ocupe o espaço disponível */
-    flex-basis: 20%; /* Define o tamanho inicial antes da distribuição de espaço */
+    flex-grow: 1; 
+    flex-basis: 20%; 
     margin-bottom: 20px;
-    overflow: hidden; /* Para evitar que .info ultrapasse os limites da .series */
+    overflow: hidden; 
 }
 
 .series-examples .series img {
-    width: 250px; /* Largura fixa */
-    height: 380px; /* Altura fixa */
+    width: 250px;
+    height: 380px;
     border-radius: 10px;
-    transition: transform 0.3s ease-out; /* Adiciona uma transição suave no hover */
+    transition: transform 0.3s ease-out;
 }
 
 .series-examples .series .info {
@@ -208,17 +208,17 @@ body {
     background: rgba(0, 0, 0, 0.7);
     color: white;
     text-align: center;
-    opacity: 0; /* Inicia oculto */
-    transition: opacity 0.3s ease-out; /* Transição suave para o efeito de aparecer */
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
 
     /* Adicione estas linhas para centralizar o conteúdo */
  
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
+    justify-content: center;
+    align-items: center;
 }
 
 .series-examples .series:hover .info {
-    opacity: 1; /* Ao passar o mouse, a .info torna-se visível */
+    opacity: 1;
 }
 
 /* Ajustes adicionais */
@@ -227,7 +227,7 @@ body {
 }
 
 .series-examples .series:hover img {
-    transform: scale(1.1); /* Efeito de escala no hover para destacar a imagem */
+    transform: scale(1.1);
 }
 
 
@@ -268,68 +268,175 @@ body {
     text-align: justify;
 }
 
-/* CSS adicional para o diálogo de criar conta */
-.dialog {
-    display: none; /* Inicia oculto */
+/* Diálogo de Login */
+.login-dialog {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
-.dialog.active {
-    display: flex; /* Torna visível quando possui a classe active */
-}
-
-#signup-form {
-    background-color: #fff;
+.login-dialog-content {
+    background-color: white;
     padding: 20px;
-    border-radius: 10px;
-    max-width: 200px;
-    width: 100%;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.login-dialog-content h2 {
+    margin-top: 0;
     text-align: center;
 }
 
-#signup-form button {
-    background-color: orange;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
     cursor: pointer;
-    margin-top: 10px;
 }
 
-/* Media Queries para Responsividade */
-@media (max-width: 768px) {
-    .navbar .search-bar {
-        max-width: 200px; /* Reduz a largura máxima para telas menores */
-    }
+#login-form, #create-account-form {
+    display: flex;
+    flex-direction: column;
+}
 
-    .navbar .search-bar input {
-        padding: 5px 10px; /* Reduz mais o padding para economizar espaço */
-        font-size: 12px; /* Tamanho da fonte ainda mais reduzido */
-    }
+#login-form label, #create-account-form label {
+    margin: 10px 0 5px;
+}
 
-    .navbar .search-bar .icon {
-        font-size: 16px; /* Tamanho do ícone reduzido para telas menores */
-    }
+#login-form input, #create-account-form input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
 
-    .header .overlay-text {
-        font-size: 14px; /* Reduz ainda mais o tamanho da fonte no header */
-    }
+#login-form button, #create-account-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: orange;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
 
-    .cta-button {
-        width: 150px; /* Reduz a largura do botão de call to action */
-        font-size: 14px; /* Reduz o tamanho da fonte do botão */
-    }
+.welcome-container {
+    display: flex;
+    align-items: center;
+    justify-content:flex-end;
+    margin-top: -44px; /* Ajuste conforme necessário */
+}
 
-    .series-examples .series {
-        width: 100%; /* Ocupa a largura total em telas menores */
-    }
+.box-left {
+    width: calc(50% - 20px); /* 50% menos um espaçamento de 20px */
+    padding: 20px;
+    background-color: transparent;
+}
+
+.box-right {
+    width: calc(50% - 50px); /* 50% menos um espaçamento de 20px */
+    position: relative;
+    overflow: hidden;
+}
+
+.box-right img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.overlay-text-series {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.box-right:hover img {
+    transform: scale(1.1);
+}
+
+.box-right:hover .overlay-text-series {
+    transform: translateY(0);
+}
+
+.overlay-text-series p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.series-section {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.popular-section {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.series-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.series-item {
+    position: relative;
+    overflow: hidden;
+    width: 200px; /* largura das imagens das séries */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.series-item img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.series-item:hover {
+    transform: translateY(-5px);
+}
+
+.series-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    opacity: 0;
+}
+
+.series-item:hover .series-info {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.series-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: left;
 }

@@ -1,24 +1,29 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const createAccountLink = document.querySelector('a[href="signin.html"]');
-    const createAccountButton = document.querySelector('.cta-button');
-    const dialog = document.getElementById('signup-dialog');
+document.addEventListener('DOMContentLoaded', () => {
+    const loginLink = document.getElementById('login-link');
+    const loginDialog = document.getElementById('login-dialog');
+    const createAccountLink = document.getElementById('create-account-link');
+    const createAccountDialog = document.getElementById('create-account-dialog');
+    const closeButtons = document.querySelectorAll('.close-button');
 
-    // Event listener para o link "Criar Conta" no navbar
-    createAccountLink.addEventListener('click', function(event) {
-        event.preventDefault(); // Evita que o link redirecione para signin.html
-        dialog.classList.add('active');
+    loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginDialog.style.display = 'flex';
     });
 
-    // Event listener para o botão "Criar Conta" abaixo do header
-    createAccountButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Evita o comportamento padrão do botão
-        dialog.classList.add('active');
+    createAccountLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        createAccountDialog.style.display = 'flex';
     });
 
-    // Fechar o diálogo ao clicar fora da área do formulário
-    dialog.addEventListener('click', function(event) {
-        if (event.target === dialog) {
-            dialog.classList.remove('active');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.parentElement.parentElement.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === loginDialog || e.target === createAccountDialog) {
+            e.target.style.display = 'none';
         }
     });
 });
