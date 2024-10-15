@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>&lrm;Welcome to My Series List &bull; My Series List</title>
-    <link rel="icon" href="assets/icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <title>{{NOME_SERIE}}</title>
+    <link rel="stylesheet" href="perfil_series.css">
+    <script src="perfil_series.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -15,60 +14,54 @@
             <span>My Series List</span>
         </div>
         <ul>
-            <li>
-                <a href="welcome-two.html">Início</a>
-            </li>
-            <li>
-                <a href="perfil.html">Meu Perfil</a>
-            </li>
-            <li>
-                <a href="series.html">Séries</a>
-            </li>
-            <li>
-                <a href="index.html">Sair</a>
-            </li>
+            <li><a href="welcome-two.html">Início</a></li>
+            <li><a href="perfil.html">Meu Perfil</a></li>
+            <li><a href="series.html">Séries</a></li>
+            <li><a href="index.html">Sair</a></li>
         </ul>
         <div class="search-bar">
             <form action="perfil_series.php" method="GET" id="search-form">
                 <input type="text" name="search" required id="search-input" placeholder="Pesquisar série...">
-                <button type="submit" style="display: none;"></button> <!-- Esconder o botão -->
+                <button type="submit" style="display: none;"></button>
                 <svg class="search-icon" enable-background="new 0 0 32 32" id="Glyph" fill="#fff" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onclick="submitSearchForm()">
                     <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14 s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0 C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
                 </svg>
             </form>
-        </div>        
+        </div>                       
     </nav>
-
-    <header class="header">
-        <img src="assets/header-image2.jpg" alt="Header Image">
-        <a href="#"class="image-title">
-            <span class="vertical-text" style="transform: translateY(-1100%) translateX(171%) rotate(-90deg);">How I Met You Mother: 8ª temporada (2012)</span>
-        </a>
-        <div class="overlay-text" style="bottom: 16%; font-size: 35px;">
-            Isso é bom! Você deu seu primeiro passo para um mundo maior…
-            <br>
-            <br>
-            <div class="small-text" style="font-size: 16px; font-family: Graphik Web Semibold Regular; color: orange">
-                My Series List permite que você acompanhe todas as séries que você viu, para que você possa recomendar uma instantaneamente no momento em que alguém perguntar ou verificar as reações a uma série da qual você acabou de ouvir falar.
+    <div class="container">
+        <div class="serie-perfil">
+            <div class="serie-poster">
+                <img src="{{IMAGEM_SERIE}}" alt="Poster da Série">
+                <h2>{{NOME_SERIE}}</h2>
+            </div>
+            <div class="serie-info">
+                <p><strong>Gênero:</strong> {{GENERO_SERIE}}</p>
+                <p><strong>Sinopse:</strong> {{SINOPSE_SERIE}}</p>
+                <p><strong>Elenco:</strong> {{ELOCO_SERIE}}</p>
+                <p><strong>Ano de lançamento:</strong> {{ANO_LANCAMENTO_SERIE}}</p>
+                <p><strong>Classificação:</strong> {{CLASSIFICACAO_SERIE}}</p>
+            </div>
+            <div class="serie-botao">
+                <button id="adicionar-serie">Adicionar Série</button>
+                <button id="curtir-serie">❤ Curtir</button>
+            </div>
+            <div class="comentarios">
+                <div class="comentario-box">
+                    <form action="perfil.php?id={{ID_SERIE}}" method="POST">
+                        <textarea name="comentario" placeholder="Deixe seu comentário..." required></textarea>
+                        <button type="submit">Enviar Comentário</button>
+                    </form>
+                </div>
+                <h3>Comentários recentes:</h3>
+                <div class="comentarios-lista">
+                    {{COMENTARIOS_RECBIDOS}}
+                </div>
             </div>
         </div>
-    </header>
-
-    <div class="welcome-container">
-        <div class="box box-left">
-            <div style="color: white; font-size: 30px; text-align: justify;">Comece sua My Series List visitando nossa seção <a href="#" style="color: white;">Popular</a> e marcando algumas séries que você já viu.</div>
-        </div>
-        <div class="box box-right">
-            <img src="assets/series-image.jpg" alt="Série" style="width: 100%;">
-            <div class="overlay-text-series">
-                <p>Lovely Runner</p>
-                <p>Gênero: Romance</p>
-                <p>Ano: 2024</p>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer">
+        <footer class="footer">
         <p>&copy; 2024 MySeriesList Limited. Todos os direitos reservados.</p>
     </footer>
+    </div>
 </body>
+</html>
