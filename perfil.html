@@ -33,7 +33,7 @@
         </ul>
         <div class="search-bar">
             <form action="perfil_series.php" method="GET" id="search-form">
-                <input type="text" name="search" required id="search-input" placeholder="Pesquisar série...">
+                <input type="text" name="search" required id="search-input" placeholder="Pesquisar">
                 <button type="submit" style="display: none;"></button> <!-- Esconder o botão -->
                 <svg class="search-icon" enable-background="new 0 0 32 32" id="Glyph" fill="#fff" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onclick="submitSearchForm()">
                     <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14 s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0 C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
@@ -53,38 +53,75 @@
             </div>
             <!-- Nome de usuário ao lado da imagem -->
             <div class="profile-username">
-                <span id="profile-username">Talita Oliveira</span> <!-- Exibindo nome do usuário com PHP -->
+                <h3>Talita Oliveira</h3>
+            <!-- Botão de editar perfil -->
+            <button id="edit-profile-btn" class="edit-profile-btn">Editar Perfil</button>
             </div>
         </div>
     </div>
 
-    <!-- Séries assistidas, Amigos, Listas -->
+    <!-- Links para seções -->
     <div class="profile-info">
-        <a href="series_assistidas.html" class="profile-link">Séries</a>
-        <a href="amigos.html" class="profile-link">Amigos</a>
-        <a href="listas.html" class="profile-link">Listas</a>
+        <button id="atividades-btn" class="profile-btn">Atividades</button>
+        <button id="series-btn" class="profile-btn">Séries</button>
+        <button id="amigos-btn" class="profile-btn">Amigos</button>
+        <button id="listas-btn" class="profile-btn">Listas</button>
     </div>
 
-    <!-- Linha do Tempo de Atividades e Comentários -->
-    <div class="timeline-container">
-        <h3>Atividades & Comentários</h3>
-        <div class="timeline-item">
-            <span class="timeline-date">12/10/2024</span>
-            <p class="timeline-content">Assistiu à série "Stranger Things" - Temporada 4, Episódio 2.</p>
-        </div>
-        <div class="timeline-item">
-            <span class="timeline-date">10/10/2024</span>
-            <p class="timeline-content">Comentou: "O episódio final de 'The Witcher' foi épico!"</p>
-        </div>
-        <div class="timeline-item">
-            <span class="timeline-date">08/10/2024</span>
-            <p class="timeline-content">Adicionou à lista: "Game of Thrones - Temporada 5".</p>
-        </div>
-        <div class="timeline-item">
-            <span class="timeline-date">05/10/2024</span>
-            <p class="timeline-content">Assistiu à série "Breaking Bad" - Temporada 3, Episódio 1.</p>
+    <!-- Modal de edição de perfil -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Editar Perfil</h2>
+            
+            <!-- Formulário de edição -->
+            <form id="edit-profile-form" action="editar_perfil.php" method="POST">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio"></textarea>
+                
+                <label for="password">Nova Senha (deixe em branco para não alterar):</label>
+                <input type="password" id="password" name="password">
+                
+                <input type="hidden" name="user_id" value="<!-- ID do usuário vai aqui -->">
+                
+                <button type="submit">Salvar</button>
+            </form>
         </div>
     </div>
+    <!-- Seções de conteúdo deslizando -->
+    <div id="atividades-section" class="slide-section">
+        <!-- Conteúdo de atividades -->
+        <h3>Atividades</h3>
+        <p>Conteúdo das atividades...</p>
+    </div>
+
+    <div id="series-section" class="slide-section">
+        <!-- Conteúdo das séries -->
+        <h3>Séries Assistidas</h3>
+        <p>Conteúdo das séries...</p>
+    </div>
+
+    <div id="amigos-section" class="slide-section">
+        <!-- Conteúdo dos amigos -->
+        <h3>Amigos</h3>
+        <p>Conteúdo dos amigos...</p>
+    </div>
+
+    <div id="listas-section" class="slide-section">
+        <!-- Conteúdo das listas -->
+        <h3>Listas</h3>
+        <p>Conteúdo das listas...</p>
+    </div>
+</div>
 
     <script src="perfil.js"></script>
 </body>
