@@ -46,11 +46,18 @@ body {
     margin-right: 10px;
 }
 
+.navbar .logo span {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Graphik Web Semibold Regular";
+}
+
 .navbar ul {
     list-style: none;
+    display: flex;
     margin: 0;
     padding: 0;
-    display: flex;
 }
 
 .navbar ul li {
@@ -58,9 +65,14 @@ body {
 }
 
 .navbar ul li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
-    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.navbar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
 }
 
 .navbar .search-bar {
@@ -73,6 +85,22 @@ body {
     margin-right: 5px;
     border: none;
     border-radius: 5px;
+}
+
+.navbar .search-bar input:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo branca com transparência ao passar o mouse */
+}
+
+.navbar .search-icon {
+    position: absolute;
+    top: 50%;
+    right: -35px; /* Ajuste a posição do ícone */
+    transform: translateY(-50%);
+    width: 20px; /* Largura do ícone */
+    height: 20px; /* Altura do ícone */
+    background-image: url('search-icon.png'); /* Caminho para o ícone PNG */
+    background-size: cover; /* Ajusta o tamanho do ícone */
+    cursor: pointer; /* Transforma o cursor em uma mãozinha ao passar sobre o ícone */
 }
 
 .profile-container {
@@ -148,7 +176,7 @@ body {
 }
 
 .profile-link:hover {
-    color: #007bff; /* Azul */
+    color: orange; /* Azul */
     background-color: rgba(0, 123, 255, 0.1); /* Cor de fundo sutil */
     text-decoration: underline;
 }
@@ -224,4 +252,212 @@ body {
     background-color: #333;
     border-radius: 50%;
     z-index: 1;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.slide-section {
+    display: none;
+    transition: transform 0.5s ease;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#atividades-section {
+    transform: translateX(-100%);
+}
+
+#series-section {
+    transform: translateX(100%);
+}
+
+#amigos-section {
+    transform: translateX(100%);
+}
+
+#listas-section {
+    transform: translateX(100%);
+}
+
+/* Seleção ativa para as seções */
+.slide-section.active {
+    display: block;
+    animation: slideIn 0.5s forwards;
+}
+
+#series-section.active {
+    animation: slideIn 0.5s forwards;
+    transform: translateX(0);
+}
+
+#atividades-section.active {
+    animation: slideIn 0.5s forwards;
+    transform: translateX(0);
+}
+
+#amigos-section.active {
+    animation: slideIn 0.5s forwards;
+    transform: translateX(0);
+}
+
+#listas-section.active {
+    animation: slideIn 0.5s forwards;
+    transform: translateX(0);
+}
+
+
+.clickable-avatar:hover {
+    border: 2px solid;
+}
+
+/* Botões invisíveis */
+.profile-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-family: "Graphik Web Semibold Regular";
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 15px;
+    outline: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.profile-btn:hover {
+    color: #fff; 
+}
+
+/* Remover o estilo de foco, para não mostrar o contorno */
+.profile-btn:focus {
+    outline: none;
+}
+
+.edit-profile-btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-top: 0px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background-color: #e07b00; /* Tom mais escuro de laranja ao passar o mouse */
+}
+
+/* Estilo do modal */
+.modal {
+    display: none; /* Inicialmente escondido */
+    position: fixed;
+    z-index: 1000; /* Maior que outros elementos da página */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo semi-transparente */
+    padding-top: 60px;
+    box-sizing: border-box; /* Garante que o padding não afete o layout */
+}
+
+/* Modal Content */
+.modal .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    max-height: 80vh; /* Limita a altura do modal */
+    overflow-y: auto; /* Barra de rolagem vertical se necessário */
+    box-sizing: border-box; /* Inclui padding no cálculo de largura */
+}
+
+/* Fechar botão */
+.modal .modal-content .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal .modal-content .close-btn:hover,
+.modal .modal-content .close-btn:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Evita que o modal interfira com outros elementos */
+.modal ~ * {
+    z-index: auto;
+    position: relative;
+}
+
+/* Formulário no modal */
+.modal .modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px; /* Adiciona espaço ao final do formulário */
+}
+
+/* Ajuste de inputs e textarea no modal */
+.modal .modal-content input[type="text"],
+.modal .modal-content input[type="email"],
+.modal .modal-content textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%; /* Garante que todos os inputs tenham o mesmo tamanho */
+    box-sizing: border-box; /* Inclui padding no cálculo de largura */
+    font-size: 16px; /* Ajuste do tamanho da fonte */
+}
+
+/* Ajusta o tamanho mínimo da área de texto (bio) */
+.modal .modal-content textarea {
+    min-height: 100px; /* Define altura mínima para o textarea */
+    resize: vertical; /* Permite redimensionamento vertical, se necessário */
+}
+
+/* Botão no modal */
+.modal .modal-content button {
+    padding: 10px;
+    background-color: orange;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 16px;
+}
+
+.modal .modal-content button:hover {
+    background-color: darkorange;
 }

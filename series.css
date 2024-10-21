@@ -236,5 +236,32 @@ main h2 {
     margin-bottom: 2rem;
 }
 /*--------------------------------------------------------------------*/
+/* Estilos aplicados apenas à página de "Cadastrar como Assistido" */
+.form-assistido label {
+    color: #fff; /* Cor branca para o texto */
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    display: block;
+}
 
+.form-assistido select, 
+.form-assistido input {
+    color: #000; /* Texto preto */
+    background-color: #fff; /* Fundo branco */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.form-assistido button {
+    background-color: orange;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-assistido button:hover {
+    background-color: darkorange;
+}
 
