@@ -83,30 +83,30 @@ $conn->close();
     <main>
         <section class="form-section">
             <h2>Selecione a Série Assistida</h2>
-            <form action="" method="POST">
-                <label for="serie">Escolha a Série:</label>
-                <select name="serie" id="serie" required>
-                    <option value="">Selecione uma série</option>
-                    <option value="serie1">Série 1</option>
-                    <option value="serie2">Série 2</option>
-                    <!-- Adicionar mais opções conforme as séries disponíveis no seu banco de dados -->
-                </select>
+            <form class="form-assistido" action="" method="POST">
+            <label for="serie">Escolha a Série:</label>
+            <select name="serie" id="serie" required>
+                <option value="">Selecione uma série</option>
+                <option value="serie1">Série 1</option>
+                <option value="serie2">Série 2</option>
+                <!-- Adicionar mais opções conforme as séries disponíveis no banco -->
+            </select>
 
-                <label for="data">Data que terminou de assistir:</label>
-                <input type="date" name="data" id="data" required>
+            <label for="data">Data que terminou de assistir:</label>
+            <input type="date" name="data" id="data" required>
 
-                <label for="avaliacao">Avalie a série:</label>
-                <input type="number" name="avaliacao" id="avaliacao" min="1" max="10" required>
+            <label for="avaliacao">Avalie a série:</label>
+            <input type="number" name="avaliacao" id="avaliacao" min="1" max="10" required>
 
-                <button type="submit">Cadastrar</button>
-            </form>
+            <button type="submit">Cadastrar</button>
+        </form>
 
-            <!-- Mensagem de feedback -->
-            <?php if (!empty($mensagem)): ?>
-                <div class="feedback-message">
-                    <p><?php echo htmlspecialchars($mensagem); ?></p>
-                </div>
-            <?php endif; ?>
+        <!-- Mensagem de feedback -->
+        <?php if (!empty($mensagem)): ?>
+            <div class="feedback-message">
+                <p><?php echo htmlspecialchars($mensagem); ?></p>
+            </div>
+        <?php endif; ?>
         </section>
     </main>
 
