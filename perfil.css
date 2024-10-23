@@ -461,3 +461,32 @@ body {
 .modal .modal-content button:hover {
     background-color: darkorange;
 }
+
+.series-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* ou a altura que preferir */
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1); /* fundo transparente */
+}
+
+.add-series-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* tamanho do card */
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.2); /* ou outro estilo que preferir */
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.add-series-link {
+    text-decoration: none;
+}
+
+.plus-icon {
+    font-size: 48px;
+    color: #000; /* cor do "+" */
+}
