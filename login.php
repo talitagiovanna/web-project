@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = "Senha é obrigatória.";
     } else {
         // Verificar se o usuário existe
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -26,8 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Usuário encontrado, verificar a senha
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['password'])) {
-                // Senha correta, redirecionar para welcome.html
-                $_SESSION['username'] = $username;
+                // Senha correta, armazenar user_id na sessão
+                $_SESSION['user_id'] = $user['id']; // Armazena o ID do usuário
+                $_SESSION['username'] = $username; // (Opcional) Armazenar o nome de usuário
                 header("Location: welcome.html");
                 exit();
             } else {
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-dialog-content">
         <h2>Erro de Login</h2>
-        <p style="color: red;"><?php echo $error_message; ?></p>
+        <p style="color: red;"><?php echo isset($error_message) ? $error_message : ''; ?></p>
         <a href="index.html">Voltar</a>
     </div>
 </body>

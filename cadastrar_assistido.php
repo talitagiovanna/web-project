@@ -60,14 +60,11 @@
                     } else {
                         echo "<option value=''>Nenhuma série disponível</option>";
                     }
-                    
-                    // Fechar a conexão
-                    $conn->close();
                     ?>
                 </select>
 
-                <label for="data">Data que terminou de assistir:</label>
-                <input type="date" name="data" id="data" required>
+                <label for="data_assistida">Data que terminou de assistir:</label>
+                <input type="date" name="data_assistida" id="data_assistida" required>
 
                 <label for="avaliacao">Avalie a série:</label>
                 <input type="number" name="avaliacao" id="avaliacao" min="1" max="10" required>
@@ -87,3 +84,4 @@
     </script>
 </body>
 </html>
+
