@@ -43,9 +43,27 @@
                 <label for="serie">Escolha a Série:</label>
                 <select name="serie" id="serie" required>
                     <option value="">Selecione uma série</option>
-                    <option value="serie1">Série 1</option>
-                    <option value="serie2">Série 2</option>
-                    <!-- Adicionar mais opções conforme as séries disponíveis no seu banco de dados -->
+                    <?php
+                    // Conecte-se ao banco de dados
+                    require 'database.php';
+                    
+                    // Execute a consulta para buscar as séries
+                    $query = "SELECT id, nome FROM series";
+                    $result = $conn->query($query);
+
+                    // Verifique se existem séries no banco de dados
+                    if ($result->num_rows > 0) {
+                        // Exibe cada série como uma opção no dropdown
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['nome']) . "</option>";
+                        }
+                    } else {
+                        echo "<option value=''>Nenhuma série disponível</option>";
+                    }
+                    
+                    // Fechar a conexão
+                    $conn->close();
+                    ?>
                 </select>
 
                 <label for="data">Data que terminou de assistir:</label>
