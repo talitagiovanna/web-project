@@ -46,7 +46,7 @@ if (!empty($nome_serie)) {
 
         // Substituir os marcadores pelo conteúdo da série
         $html = str_replace('{{NOME_SERIE}}', htmlspecialchars($serie['nome']), $html);
-        $html = str_replace('{{IMAGEM_SERIE}}', htmlspecialchars($serie['imagem']), $html);
+        $html = str_replace('{{IMAGEM_SERIE}}', htmlspecialchars($serie['poster_url']), $html);
         $html = str_replace('{{GENERO_SERIE}}', htmlspecialchars($serie['genero']), $html);
         $html = str_replace('{{SINOPSE_SERIE}}', htmlspecialchars($serie['sinopse']), $html);
         $html = str_replace('{{ELOCO_SERIE}}', htmlspecialchars($serie['elenco']), $html);
