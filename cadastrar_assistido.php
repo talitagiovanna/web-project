@@ -18,15 +18,9 @@
             <li><a href="welcome-two.html">Início</a></li>
             <li><a href="perfil.html">Meu Perfil</a></li>
             <li><a href="series.html">Séries</a></li>
+            <li><a href="pesquisarseries.php">Pesquisar</a></li>
             <li><a href="index.html">Sair</a></li>
         </ul>
-        <div class="search-bar">
-            <form action="perfil_series.php" method="GET" id="search-form">
-                <input type="text" name="search" required id="search-input" placeholder="Pesquisar">
-                <button type="submit" style="display: none;"></button>
-                <svg class="search-icon" fill="#fff" onclick="submitSearchForm()"><path d="..."/></svg>
-            </form>
-        </div>
     </nav>
 
     <!-- Cabeçalho -->

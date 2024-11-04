@@ -8,21 +8,11 @@
     url("https://db.onlinewebfonts.com/t/02fb003368979ba04752e4f3b4c4cebd.svg#Graphik Web Semibold Regular")format("svg");
 }
 
-@font-face {
-    font-family: "Tiempos Headline Bold";
-    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot");
-    src: url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/74613f6f784f2e332b85076579141743.svg#Tiempos Headline Bold")format("svg");
-}
-
 body {
     font-family: "Graphik Web Semibold Regular";
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Impede a rolagem horizontal */
+    overflow-x: hidden;
     background-color: rgb(0, 0, 0);
 }
 
@@ -32,12 +22,12 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background: none; /* Sem cor de fundo */
-    position: fixed; /* Fixar a navbar no topo da página */
-    top: 0; /* Fixar no topo */
+    background: none;
+    position: fixed;
+    top: 0;
     width: 100%;
-    z-index: 1000; /* Garante que a navbar sobreponha outros elementos */
-    height: 30px; /* Define uma altura fixa para a navbar */
+    z-index: 1000;
+    height: 30px;
 }
 
 .navbar .logo {
@@ -46,7 +36,7 @@ body {
 }
 
 .navbar .logo svg {
-    height: 26px; /* Altura ajustada para combinar com o tamanho da fonte */
+    height: 26px;
     margin-right: 10px;
 }
 
@@ -60,8 +50,9 @@ body {
 .navbar ul {
     list-style: none;
     display: flex;
-    margin: 0;
+    margin: 0 auto; /* Centraliza horizontalmente */
     padding: 0;
+    justify-content: center; /* Centraliza os links dentro do ul */
 }
 
 .navbar ul li {
@@ -79,52 +70,14 @@ body {
     border-radius: 4px;
 }
 
-.navbar .search-bar {
-    position: relative;
-    flex: 1; /* Expande para ocupar o espaço restante */
-    max-width: 100px; /* Largura máxima para desktop */
-    margin-right: 150px;
-}
-
-.navbar .search-bar input {
-    padding: 5px 30px 5px 10px; /* Reduzido o padding para ocupar menos espaço */
-    width: 100%; /* Ocupa toda a largura do container */
-    border-radius: 20px;
-    border: 0px solid whitesmoke;
-    background-color: transparent; /* Campo de pesquisa inicialmente transparente */
-    transition: background-color 0.3s ease; /* Transição suave para o hover */
-}
-
-.navbar .search-bar input:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo branca com transparência ao passar o mouse */
-}
-
-.navbar .search-icon {
-    position: absolute;
-    top: 50%;
-    right: -35px; /* Ajuste a posição do ícone */
-    transform: translateY(-50%);
-    width: 20px; /* Largura do ícone */
-    height: 20px; /* Altura do ícone */
-    background-image: url('search-icon.png'); /* Caminho para o ícone PNG */
-    background-size: cover; /* Ajusta o tamanho do ícone */
-    cursor: pointer; /* Transforma o cursor em uma mãozinha ao passar sobre o ícone */
-}
-
-/* Ajuste no container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     background-color: #fff;
-    margin-top: 70px; /* Adiciona margem superior para criar espaço suficiente abaixo da navbar */
+    margin-top: 70px;
     padding: 50px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-header {
-    text-align: center;
-    margin-bottom: 100px;
 }
 
 .serie-perfil {
@@ -203,22 +156,6 @@ header {
 
 .comentarios-lista {
     width: 100%;
-}
-
-.comentario {
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.comentario p {
-    font-size: 14px;
-}
-
-.comentario .data {
-    font-size: 12px;
-    color: #888;
 }
 
 footer {

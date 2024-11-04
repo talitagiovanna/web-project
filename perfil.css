@@ -56,8 +56,9 @@ body {
 .navbar ul {
     list-style: none;
     display: flex;
-    margin: 0;
+    margin: 0 auto; /* Centraliza horizontalmente */
     padding: 0;
+    justify-content: center; /* Centraliza os links dentro do ul */
 }
 
 .navbar ul li {
@@ -73,34 +74,6 @@ body {
 .navbar ul li a:hover {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
-}
-
-.navbar .search-bar {
-    display: flex;
-    align-items: center;
-}
-
-.navbar .search-bar input {
-    padding: 5px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 5px;
-}
-
-.navbar .search-bar input:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo branca com transparência ao passar o mouse */
-}
-
-.navbar .search-icon {
-    position: absolute;
-    top: 50%;
-    right: -35px; /* Ajuste a posição do ícone */
-    transform: translateY(-50%);
-    width: 20px; /* Largura do ícone */
-    height: 20px; /* Altura do ícone */
-    background-image: url('search-icon.png'); /* Caminho para o ícone PNG */
-    background-size: cover; /* Ajusta o tamanho do ícone */
-    cursor: pointer; /* Transforma o cursor em uma mãozinha ao passar sobre o ícone */
 }
 
 .profile-container {
