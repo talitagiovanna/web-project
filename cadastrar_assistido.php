@@ -211,7 +211,7 @@
             padding: 0.8rem;
             margin-top: 1.5rem;
             background-color: orange;
-            color: #000;
+            color: #ffff;
             font-family: "Tiempos Headline Bold";
             font-size: 1.2rem;
             border: none;
