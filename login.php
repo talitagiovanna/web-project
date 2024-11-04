@@ -29,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Senha correta, armazenar user_id na sessão
                 $_SESSION['user_id'] = $user['id']; // Armazena o ID do usuário
                 $_SESSION['username'] = $username; // (Opcional) Armazenar o nome de usuário
-                header("Location: welcome.html");
+
+                // Redireciona para a página de boas-vindas com o user_id na URL
+                header("Location: welcome.html?userid=" . $user['id']);
                 exit();
             } else {
                 $error_message = "Senha incorreta.";
@@ -44,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error_message = "Método de requisição inválido.";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

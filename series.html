@@ -94,64 +94,12 @@
             </div>
         </section>
 
-        <!-- Seção de Cadastro de Série Assistida -->
-<section class="cadastrar-assistido">
-    <h2>Cadastro de Série Assistida</h2>
-    <form action="salvar_assistido.php" method="POST" id="watched-series-form">
-        <label for="serie">Escolha uma Série:</label>
-        <select name="serie" id="serie" required>
-            <option value="">Selecione uma série</option>
-            <?php
-            include 'database.php';
-            $query = "SELECT * FROM series";
-            $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<option value='" . $row['id'] . "'>" . $row['nome'] . "</option>";
-            }
-            ?>
-        </select>
-    
-        <label for="data_assistida">Data Assistida:</label>
-        <input type="date" name="data_assistida" id="data_assistida" required>
-    
-        <label for="avaliacao">Avaliação:</label>
-        <input type="number" name="avaliacao" id="avaliacao" min="1" max="10" required>
-    
-        <button type="submit">Cadastrar</button>
-    </form>    
-</section>
-
     </main>
 
     <!-- Rodapé -->
     <footer>
         <p>&copy; 2024 My Series List. Todos os direitos reservados.</p>
     </footer>
-
-    <script>
-        // Manipulação do formulário
-        const form = document.getElementById('watched-series-form');
-        const watchedSeriesList = document.getElementById('watched-series-list');
-
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita que a página recarregue
-            
-            const title = document.getElementById('title').value;
-            const season = document.getElementById('season').value;
-            const episode = document.getElementById('episode').value;
-            const date = document.getElementById('date').value;
-
-            // Cria um novo item da lista
-            const listItem = document.createElement('li');
-            listItem.textContent = `${title} - Temporada ${season}, Episódio ${episode} assistido em ${date}`;
-            
-            // Adiciona o item à lista
-            watchedSeriesList.appendChild(listItem);
-
-            // Limpa o formulário
-            form.reset();
-        });
-    </script>
 </body>
 </html>
 

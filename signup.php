@@ -9,10 +9,10 @@ require 'database.php';
 
 // Verificar se a requisição é POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obter dados do formulário
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Obter dados do formulário e sanitizar
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
     // Validar os campos
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -24,6 +24,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (strlen($password) < 6) {
         die("Senha deve ter pelo menos 6 caracteres.");
     }
+
+    // Verificar se o e-mail já está cadastrado
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->bind_result($emailCount);
+    $stmt->fetch();
+    if ($emailCount > 0) {
+        die("E-mail já cadastrado. Por favor, forneça um novo e-mail.");
+    }
+    $stmt->close();
+
+    // Verificar se o nome de usuário já está cadastrado
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($usernameCount);
+    $stmt->fetch();
+    if ($usernameCount > 0) {
+        die("Usuário já cadastrado. Por favor, escolha um nome de usuário diferente.");
+    }
+    $stmt->close();
 
     // Hash da senha
     $passwordHash = password_hash($password, PASSWORD_BCRYPT);
@@ -37,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: welcome.html");
         exit();
     } else {
-        echo "Erro: " . $stmt->error;
+        echo "Erro ao criar a conta: " . $stmt->error;
     }
 
     $stmt->close();
