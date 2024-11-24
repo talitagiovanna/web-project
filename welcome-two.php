@@ -1,3 +1,30 @@
+<?php
+session_start();
+
+// Incluir arquivo de conexão com o banco de dados
+require 'database.php';
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html");
+    exit();
+}
+
+$user_id = $_SESSION['user_id']; // ID do usuário, que pode vir da sessão após o login
+
+// Consulta para pegar o username e name do usuário
+$sql = "SELECT username, name FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($username, $name);
+$stmt->fetch();
+$stmt->close();
+
+// Verifica se o nome está definido (não é null), caso contrário usa o username
+$user_display_name = $name ? $name : $username;
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,9 +38,9 @@
         .navbar ul {
             list-style: none;
             display: flex;
-            margin: 0 auto; /* Centraliza horizontalmente */
+            margin: 0 auto;
             padding: 0;
-            justify-content: center; /* Centraliza os links dentro do ul */
+            justify-content: center;
         }
     </style>
 </head>
@@ -24,21 +51,11 @@
             <span>My Series List</span>
         </div>
         <ul>
-            <li>
-                <a href="welcome-two.html">Início</a>
-            </li>
-            <li>
-                <a href="perfil.html">Meu Perfil</a>
-            </li>
-            <li>
-                <a href="series.html">Séries</a>
-            </li>
-            <li>
-                <a href="pesquisarseries.php">Pesquisar</a>
-            </li>
-            <li>
-                <a href="index.html">Sair</a>
-            </li>
+            <li><a href="welcome-two.php">Início</a></li>
+            <li><a href="perfil.php">Meu Perfil</a></li>
+            <li><a href="series.html">Séries</a></li>
+            <li><a href="pesquisarseries.php">Pesquisar</a></li>
+            <li><a href="logout.php">Sair</a></li>
         </ul>       
     </nav>
 
@@ -48,7 +65,7 @@
             <span class="vertical-text" style="transform: translateY(-1100%) translateX(181%) rotate(-90deg);">My Vampire Diaries: 8º temporada (2017)</span>
         </a>
         <div class="overlay-text" style="bottom: 20%; font-size: 35px;">
-            Bem vinda de volta, <a href="meu_perfil.html" style="color: white;">Talita</a>.
+            Bem vindo de volta, <a href="perfil.php" style="color: white;"><?php echo $user_display_name; ?></a>.
             <br>
             <div class="small-text" style="font-size: 16px; font-family: Graphik Web Semibold Regular; color: white">
                 Esta página inicial será personalizada à medida que você seguir membros ativos no My Series List.

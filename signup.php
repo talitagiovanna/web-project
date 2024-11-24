@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         // Redirecionar para a nova página
-        header("Location: welcome.html");
+        header("Location: welcome.html?userid=" . $user['id']);
         exit();
     } else {
         echo "Erro ao criar a conta: " . $stmt->error;

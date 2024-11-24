@@ -252,11 +252,11 @@
             <span>My Series List</span>
         </div>
         <ul>
-            <li><a href="welcome-two.html">Início</a></li>
-            <li><a href="perfil.html">Meu Perfil</a></li>
+            <li><a href="welcome-two.php">Início</a></li>
+            <li><a href="perfil.php">Meu Perfil</a></li>
             <li><a href="series.html">Séries</a></li>
             <li><a href="pesquisarseries.php">Pesquisar</a></li>
-            <li><a href="index.html">Sair</a></li>
+            <li><a href="logout.php">Sair</a></li>
         </ul>                       
     </nav>
 
