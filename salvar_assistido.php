@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Exibe mensagem e redireciona
     echo "<script>
             alert('" . htmlspecialchars($mensagem, ENT_QUOTES) . "');
-            window.location.href='series.html';
+            window.location.href='perfil.php';
           </script>";
     exit();
 }
