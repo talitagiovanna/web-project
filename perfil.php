@@ -13,12 +13,12 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id']; // Obtém o ID do usuário da sessão
 
 // Busca os dados do usuário
-$sql = "SELECT username, name, email, bio FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$sqlUser = "SELECT username, name, email, bio FROM users WHERE id = ?";
+$stmtUser = $conn->prepare($sqlUser);
+$stmtUser->bind_param("i", $userId);
+$stmtUser->execute();
+$resultUser = $stmtUser->get_result();
+$user = $resultUser->fetch_assoc();
 
 // Verifica se o usuário foi encontrado
 if (!$user) {
@@ -30,7 +30,34 @@ $username = htmlspecialchars($user['username']);
 $name = htmlspecialchars($user['name'] ?? ''); // Se null, fica vazio
 $email = htmlspecialchars($user['email'] ?? ''); // Se null, fica vazio
 $bio = htmlspecialchars($user['bio'] ?? ''); // Se null, fica vazio
+
+// Busca as séries assistidas, avaliações e datas
+$sqlSeries = "
+    SELECT s.id, s.nome, s.poster_url, sa.avaliacao, sa.data_assistida
+    FROM series_assistidas sa
+    INNER JOIN series s ON sa.serie_id = s.id
+    WHERE sa.usuario_id = ?
+";
+$stmtSeries = $conn->prepare($sqlSeries);
+$stmtSeries->bind_param("i", $userId);
+$stmtSeries->execute();
+$resultSeries = $stmtSeries->get_result();
+
+// Array para armazenar séries assistidas
+$series_assistidas = [];
+if ($resultSeries->num_rows > 0) {
+    while ($row = $resultSeries->fetch_assoc()) {
+        $series_assistidas[] = $row;
+    }
+}
+
+// Fechar conexões preparadas
+$stmtUser->close();
+$stmtSeries->close();
+$conn->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -114,24 +141,86 @@ $bio = htmlspecialchars($user['bio'] ?? ''); // Se null, fica vazio
         <h3>Atividades</h3>
         <p>Conteúdo das atividades...</p>
     </div>
-    <div id="series-section" class="slide-section">
-        <h3>Séries Assistidas</h3>
-        <div class="series-container">
-            <div class="add-series-card">
-                <a href="cadastrar_assistido.php" class="add-series-link">
-                    <div class="plus-icon"><span>+</span></div>
-                </a>
-            </div>
+
+
+     <!-- Seções das séries -->
+     <div id="series-section" class="slide-section">
+    <h3>Séries Assistidas</h3>
+    <div class="series-container">
+        <!-- Botão "+" -->
+        <div class="add-series-card">
+            <a href="cadastrar_assistido.php" class="add-series-link" aria-label="Adicionar nova série">
+                <div class="plus-icon">+</div>
+            </a>
+        </div>
+
+        <!-- Listagem de séries -->
+        <div class="series-list">
+            <?php foreach ($series_assistidas as $serie): ?>
+                <div class="series-card" onclick="openModal(<?php echo $serie['id']; ?>)">
+                    <img src="<?php echo htmlspecialchars($serie['poster_url'], ENT_QUOTES); ?>" 
+                         alt="Poster da série <?php echo htmlspecialchars($serie['nome'], ENT_QUOTES); ?>">
+                    <div class="card-overlay">
+                        <h4><?php echo htmlspecialchars($serie['nome'], ENT_QUOTES); ?></h4>
+                        <p>Avaliação: <?php echo htmlspecialchars($serie['avaliacao'], ENT_QUOTES); ?>/10</p>
+                        <p>Assistido em: <?php echo date("d/m/Y", strtotime($serie['data_assistida'])); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div id="modalseries" class="modalseries">
+    <div class="modal-content">
+        <span class="close-btn" id="close-btn">&times;</span>
+        <h2>Editar Série</h2>
+        <form id="edit-form" method="POST">
+            <input type="hidden" name="serie_id" id="serie_id">
+            <label for="avaliacao">Avaliação:</label>
+            <input type="number" id="avaliacao" name="avaliacao" min="1" max="10" required>
+            <label for="data_assistida">Data Assistida:</label>
+            <input type="date" id="data_assistida" name="data_assistida" required>
+            <button type="submit">Atualizar</button>
+        </form>
+    </div>
+</div>
+
+
+
+
     <div id="amigos-section" class="slide-section">
         <h3>Amigos</h3>
         <p>Conteúdo dos amigos...</p>
     </div>
     <div id="listas-section" class="slide-section">
-        <h3>Listas</h3>
-        <p>Conteúdo das listas...</p>
+    <h2>Minhas Listas</h2>
+
+    <!-- Botão do Menu Hamburguer -->
+    <button class="menu-hamburguer" id="menu-btn" aria-label="Abrir menu">&#9776;</button>
+
+    <!-- Menu Lateral -->
+    <div class="menu-lateral" id="menu-lateral">
+        <h3>Criar Lista</h3>
+        <form id="form-criar-lista">
+            <label for="nova_lista">Nova Lista</label>
+            <input 
+                type="text" 
+                id="nova_lista" 
+                name="nova_lista" 
+                placeholder="Digite o nome da lista" 
+                required
+            >
+            <button type="submit">Criar Lista</button>
+        </form>
     </div>
+    
+    <!-- Exibir listas -->
+    <div id="listas-container" aria-live="polite">
+        <!-- As listas serão carregadas dinamicamente aqui -->
+    </div>
+</div>
 
     <script src="perfil.js"></script>
 </body>

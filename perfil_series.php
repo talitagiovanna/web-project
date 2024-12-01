@@ -233,6 +233,7 @@ $conn->close();
     <div class="modal-content">
         <span class="close" onclick="closeEditModal()">&times;</span>
         <form id="editForm" method="POST">
+            <h2>Edite seu comentário:</h2>
             <textarea id="editComentario" name="comentario"></textarea>
             <input type="hidden" id="editComentarioId" name="id">
             <button type="submit">Atualizar Comentário</button>

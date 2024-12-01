@@ -40,10 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.editar-comentario').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var comentarioId = this.getAttribute('data-id');
-            var comentarioTexto = this.previousElementSibling.textContent; // Pega o comentário
+        
 
             // Cria um campo para edição do comentário
-            var newComentario = prompt('Edite seu comentário:', comentarioTexto);
 
             if (newComentario !== null) {
                 // Envia o novo comentário para o servidor
