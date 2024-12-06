@@ -112,9 +112,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['acti
     $listas = $listas_result->fetch_all(MYSQLI_ASSOC);
     $listas_query->close();
 
-    // Buscar todas as séries
-    $series_result = $conn->query("SELECT id, nome, poster_url FROM series");
+    // Preparar consulta para buscar todas as séries, com possibilidade de filtro
+    $series_query = "SELECT id, nome, poster_url FROM series";
+    
+    // Se houver um termo de pesquisa
+    if (isset($_GET['pesquisa']) && !empty($_GET['pesquisa'])) {
+        $pesquisa = '%' . $_GET['pesquisa'] . '%';
+        $series_query .= " WHERE nome LIKE ?";
+    }
+    
+    // Executar a consulta das séries
+    $stmt = $conn->prepare($series_query);
+    
+    if (isset($pesquisa)) {
+        $stmt->bind_param("s", $pesquisa);
+    }
+    
+    $stmt->execute();
+    $series_result = $stmt->get_result();
     $series = $series_result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 
     // Buscar as séries associadas a cada lista
     $listas_com_series = [];
@@ -136,6 +153,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['acti
     echo json_encode(['listas' => $listas_com_series, 'series' => $series]);
     exit;
 }
+
+// Verifique se a ação é 'remover_serie_lista'
+if ($_POST['action'] === 'remover_serie_lista') {
+    $serie_id = $_POST['serie_id'];
+    $lista_id = $_POST['lista_id'];
+
+    // Lógica para remover a série da lista no banco de dados
+    $query = "DELETE FROM lista_series WHERE lista_id = :lista_id AND serie_id = :serie_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':lista_id', $lista_id);
+    $stmt->bindParam(':serie_id', $serie_id);
+
+    if ($stmt->execute()) {
+        echo json_encode(['success' => 'Série removida com sucesso!']);
+    } else {
+        echo json_encode(['error' => 'Erro ao remover série.']);
+    }
+}
+
 
 $conn->close();
 ?>

@@ -151,231 +151,274 @@ editForm.addEventListener('submit', (e) => {
       //===================================================================================
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const menuBtn = document.getElementById('menu-btn');
-    const menuLateral = document.getElementById('menu-lateral');
-    const listasContainer = document.getElementById('listas-container');
-    const formCriarLista = document.getElementById('form-criar-lista');
-
-    if (!menuBtn || !menuLateral || !listasContainer || !formCriarLista) {
-        console.error('Um ou mais elementos necessários não foram encontrados!');
-        return;
-    }
-
-    menuBtn.addEventListener('click', () => {
-        menuLateral.classList.toggle('ativo');
-    });
-
-    // Função para exibir mensagens
-    function exibirMensagem(tipo, texto) {
-        const messageBox = document.createElement('div');
-        messageBox.className = 'message-box ' + tipo;
-        messageBox.textContent = texto;
-        document.body.appendChild(messageBox);
-
-        setTimeout(() => {
-            messageBox.style.opacity = 0;
-            setTimeout(() => {
-                messageBox.remove();
-            }, 500);
-        }, 3000);
-    }
-
-    // Função para carregar listas e séries
-    function fetchListas() {
-        console.log('Carregando listas...');
-        fetch('listas.php?action=fetch')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro na resposta do servidor: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Dados recebidos:', data); // Verifique os dados aqui
-                if (!data.listas || !data.series) {
-                    throw new Error('Dados inválidos recebidos.');
-                }
+      document.addEventListener('DOMContentLoaded', () => {
+        const menuBtn = document.getElementById('menu-btn');
+        const menuLateral = document.getElementById('menu-lateral');
+        const listasContainer = document.getElementById('listas-container');
+        const formCriarLista = document.getElementById('form-criar-lista');
     
-                listasContainer.innerHTML = ''; // Limpa o container
-    
-                data.listas.forEach(item => {
-                    const { lista, series: seriesAssociadas } = item;
-    
-                    const listaDiv = document.createElement('div');
-                    listaDiv.classList.add('lista');
-    
-                    const listaTitulo = document.createElement('h4');
-                    listaTitulo.textContent = lista.nome;
-                    listaDiv.appendChild(listaTitulo);
-    
-                    const hamburguerBtn = document.createElement('button');
-                    hamburguerBtn.classList.add('hamburguer-listas');
-                    hamburguerBtn.innerHTML = '&#9776;';
-                    listaDiv.appendChild(hamburguerBtn);
-    
-                    const menuOptions = document.createElement('div');
-                    menuOptions.classList.add('menu-opcoes');
-                    menuOptions.innerHTML = `
-                        <button class="editar-nome">Editar Nome</button>
-                        <button class="editar-series">Editar Séries</button>
-                        <button class="apagar-lista">Apagar Lista</button>
-                    `;
-                    menuOptions.style.display = 'none';
-                    listaDiv.appendChild(menuOptions);
-    
-                    hamburguerBtn.addEventListener('click', () => {
-                        menuOptions.style.display = menuOptions.style.display === 'none' ? 'block' : 'none';
-                    });
-    
-                    // Editar nome da lista
-                    menuOptions.querySelector('.editar-nome').addEventListener('click', () => {
-                        const novoNome = prompt('Digite o novo nome da lista:', lista.nome);
-                        if (novoNome && novoNome.trim()) {
-                            fetch('listas.php', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                                body: `action=editar_nome&lista_id=${lista.id}&novo_nome=${encodeURIComponent(novoNome)}`
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        exibirMensagem('success', data.success);
-                                        fetchListas();
-                                        alert("Nome alterado com sucesso!");
-                                    } else {
-                                        exibirMensagem('error', data.error);
-                                    }
-                                })
-                                .catch(error => console.error('Erro:', error));
-                        }
-                    });
-    
-                    // Apagar lista
-                    menuOptions.querySelector('.apagar-lista').addEventListener('click', () => {
-                        if (confirm('Tem certeza que deseja apagar esta lista?')) {
-                            fetch('listas.php', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                                body: `action=apagar_lista&lista_id=${lista.id}`
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        exibirMensagem('success', data.success);
-                                        fetchListas();
-                                        alert("Lista Apagada com sucesso!");
-                                    } else {
-                                        exibirMensagem('error', data.error);
-                                    }
-                                })
-                                .catch(error => console.error('Erro:', error));
-                        }
-                    });
-    
-                    // Exibir séries associadas
-                    const listaSeriesDiv = document.createElement('div');
-                    listaSeriesDiv.classList.add('container-series');
-    
-                    if (seriesAssociadas && seriesAssociadas.length > 0) {
-                        seriesAssociadas.forEach(serie => {
-                            const serieDiv = document.createElement('div');
-                            serieDiv.classList.add('serie');
-    
-                            const imagemContainer = document.createElement('div');
-                            imagemContainer.classList.add('imagem-container');
-                            imagemContainer.innerHTML = `
-                                <img src="${serie.poster_url}" alt="Poster da série" class="imagem-serie">
-                            `;
-    
-                            const botaoLixeira = document.createElement('button');
-                            botaoLixeira.classList.add('botao-lixeira');
-                            botaoLixeira.innerHTML = '🗑';
-    
-                            botaoLixeira.addEventListener('click', () => {
-                                if (confirm(`Deseja remover a série "${serie.nome}"?`)) {
-                                    fetch('listas.php', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                                        body: `action=remover_serie&lista_id=${lista.id}&serie_id=${serie.id}`
-                                    })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                exibirMensagem('success', data.success);
-                                                fetchListas();
-                                            } else {
-                                                exibirMensagem('error', data.error);
-                                            }
-                                        })
-                                        .catch(error => console.error('Erro:', error));
-                                }
-                            });
-    
-                            imagemContainer.appendChild(botaoLixeira);
-                            serieDiv.appendChild(imagemContainer);
-    
-                            const serieTitulo = document.createElement('h5');
-                            serieTitulo.textContent = serie.nome;
-                            serieDiv.appendChild(serieTitulo);
-    
-                            listaSeriesDiv.appendChild(serieDiv);
-                        });
-                    } else {
-                        const mensagem = document.createElement('p');
-                        mensagem.textContent = 'Nenhuma série adicionada ainda.';
-                        listaSeriesDiv.appendChild(mensagem);
-                    }
-    
-                    listaDiv.appendChild(listaSeriesDiv);
-                    listasContainer.appendChild(listaDiv);
-                });
-            })
-            .catch(error => {
-                console.error('Erro ao buscar listas:', error);
-                exibirMensagem('error', 'Erro ao carregar listas.');
-            });
-
-
-            
-    }
-    
-
-    formCriarLista.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const nomeLista = formCriarLista.querySelector('input[name="nova_lista"]').value;
-    
-        if (!nomeLista.trim()) {
-            alert('Digite um nome para a lista.');
+        if (!menuBtn || !menuLateral || !listasContainer || !formCriarLista) {
+            console.error('Um ou mais elementos necessários não foram encontrados!');
             return;
         }
     
-        fetch('listas.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `action=nova_lista&nova_lista=${encodeURIComponent(nomeLista)}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                exibirMensagem('success', data.success);
-                fetchListas(); // Atualiza as listas
-                alert("Sua lista foi Criada!");
-            } else {
-                exibirMensagem('error', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao criar lista:', error);
-            exibirMensagem('error', 'Erro ao criar lista.');
+        menuBtn.addEventListener('click', () => {
+            menuLateral.classList.toggle('ativo');
         });
+    
+        // Função para exibir mensagens
+        function exibirMensagem(tipo, texto) {
+            const messageBox = document.createElement('div');
+            messageBox.className = 'message-box ' + tipo;
+            messageBox.textContent = texto;
+            document.body.appendChild(messageBox);
+    
+            setTimeout(() => {
+                messageBox.style.opacity = 0;
+                setTimeout(() => {
+                    messageBox.remove();
+                }, 500);
+            }, 3000);
+        }
+    
+        // Função para carregar listas e séries
+        function fetchListas() {
+            console.log('Carregando listas...');
+            fetch('listas.php?action=fetch')
+                .then(response => response.json())
+                .then(data => {
+                    listasContainer.innerHTML = ''; // Limpa o container
+    
+                    data.listas.forEach(item => {
+                        const { lista, series: seriesAssociadas } = item;
+                        const listaDiv = document.createElement('div');
+                        listaDiv.classList.add('lista');
+                        listaDiv.dataset.listaId = lista.id;
+    
+                        const listaTitulo = document.createElement('h4');
+                        listaTitulo.textContent = lista.nome;
+                        listaDiv.appendChild(listaTitulo);
+    
+                        const hamburguerBtn = document.createElement('button');
+                        hamburguerBtn.classList.add('hamburguer-listas');
+                        hamburguerBtn.innerHTML = '&#9776;';
+                        listaDiv.appendChild(hamburguerBtn);
+    
+                        const menuOptions = document.createElement('div');
+                        menuOptions.classList.add('menu-opcoes');
+                        menuOptions.innerHTML = `
+                            <button class="editar-nome">Editar Nome</button>
+                            <button class="editar-series">Adicionar Séries</button>
+                            <button class="apagar-lista">Apagar Lista</button>
+                        `;
+                        menuOptions.style.display = 'none';
+                        listaDiv.appendChild(menuOptions);
+    
+                        hamburguerBtn.addEventListener('click', () => {
+                            menuOptions.style.display = menuOptions.style.display === 'none' ? 'block' : 'none';
+                        });
+    
+                        const seriesIdsAssociadas = seriesAssociadas.map(serie => serie.id);
+    
+                        // Editar nome da lista
+                        menuOptions.querySelector('.editar-nome').addEventListener('click', () => {
+                            const novoNome = prompt('Digite o novo nome da lista:', lista.nome);
+                            if (novoNome && novoNome.trim()) {
+                                fetch('listas.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                    body: `action=editar_nome&lista_id=${lista.id}&novo_nome=${encodeURIComponent(novoNome)}`
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            exibirMensagem('success', data.success);
+                                            fetchListas();
+                                            alert("Nome alterado com sucesso!");
+                                        } else {
+                                            exibirMensagem('error', data.error);
+                                        }
+                                    })
+                                    .catch(error => console.error('Erro:', error));
+                            }
+                        });
+                        
+                        // Editar séries da lista
+                        menuOptions.querySelector('.editar-series').addEventListener('click', () => {
+                            const conteudoModal = document.getElementById('conteudo-modal');
+                            const campoPesquisa = document.getElementById('pesquisar-series');
+                        
+                            conteudoModal.innerHTML = ''; // Limpar conteúdo anterior
+                            campoPesquisa.value = ''; // Limpar o campo de pesquisa
+                            
+                            function exibirSeries(seriesFiltradas) {
+                                conteudoModal.innerHTML = ''; // Limpa o conteúdo do modal
+                            
+                                if (seriesFiltradas.length === 0) {
+                                    const mensagem = document.createElement('p');
+                                    mensagem.textContent = 'Nenhuma série encontrada.';
+                                    conteudoModal.appendChild(mensagem);
+                                } else {
+                                    seriesFiltradas.forEach(serie => {
+                                        const serieDiv = document.createElement('div');
+                                        serieDiv.classList.add('serie-modal');
+                            
+                                        const serieTitulo = document.createElement('h5');
+                                        serieTitulo.textContent = serie.nome;
+                                        serieDiv.appendChild(serieTitulo);
+                            
+                                        const imagemContainer = document.createElement('div');
+                                        imagemContainer.classList.add('imagem-container');
+                                        imagemContainer.innerHTML = `<img src="${serie.poster_url}" alt="Poster da série" class="imagem-serie">`;
+                            
+                                        // Botão para adicionar a série à lista
+                                        const botaoAdicionar = document.createElement('button');
+                                        botaoAdicionar.textContent = 'Adicionar à lista';
+                                        botaoAdicionar.addEventListener('click', () => {
+                                            const listaId = listaDiv.dataset.listaId; // Obtém o ID da lista
+                                            fetch('listas.php', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                                body: `action=adicionar_serie_lista&serie_id=${serie.id}&lista_id=${listaId}`
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    exibirMensagem('success', 'Série adicionada à lista com sucesso!');
+                                                    fetchListas(); // Atualiza as listas
+                                                } else {
+                                                    exibirMensagem('error', data.error);
+                                                }
+                                            })
+                                            .catch(error => console.error('Erro ao adicionar série:', error));
+                                        });
+                            
+                                        serieDiv.appendChild(imagemContainer);
+                                        serieDiv.appendChild(botaoAdicionar); // Adiciona o botão ao modal
+                                        conteudoModal.appendChild(serieDiv);
+                                    });
+                                }
+                            }
+                            
+                            campoPesquisa.addEventListener('input', () => {
+                                const termoBusca = campoPesquisa.value.toLowerCase().trim();
+                            
+                                if (termoBusca === '') {
+                                    conteudoModal.innerHTML = ''; // Limpa o modal se o campo de pesquisa estiver vazio
+                                    return;
+                                }
+                            
+                                fetch(`listas.php?action=fetch&pesquisa=${encodeURIComponent(termoBusca)}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const seriesFiltradas = data.series.filter(serie => !seriesIdsAssociadas.includes(serie.id));
+                                        exibirSeries(seriesFiltradas);
+                                    })
+                                    .catch(error => console.error('Erro ao buscar as séries:', error));
+                            });
+                        
+                            // Mostrar o modal
+                            const modal = document.getElementById('modal-editar-series');
+                            modal.style.display = 'block';
+                        });
+                        
+                        // Fechar o modal quando o usuário clicar no botão "X"
+                        document.getElementById('fechar-modal').addEventListener('click', () => {
+                            const modal = document.getElementById('modal-editar-series');
+                            modal.style.display = 'none';
+                        });
+                        
+                        // Fechar o modal clicando fora do conteúdo
+                        window.addEventListener('click', (event) => {
+                            const modal = document.getElementById('modal-editar-series');
+                            if (event.target === modal) {
+                                modal.style.display = 'none';
+                            }
+                        });
+                        
+                        // Apagar lista
+                        menuOptions.querySelector('.apagar-lista').addEventListener('click', () => {
+                            if (confirm('Tem certeza que deseja apagar esta lista?')) {
+                                fetch('listas.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                    body: `action=apagar_lista&lista_id=${lista.id}`
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            exibirMensagem('success', data.success);
+                                            fetchListas(); // Atualiza as listas
+                                        } else {
+                                            exibirMensagem('error', data.error);
+                                        }
+                                    })
+                                    .catch(error => console.error('Erro ao apagar lista:', error));
+                            }
+                        });
+                        
+                        // Exibir séries associadas à lista
+                        const listaSeriesDiv = document.createElement('div');
+                        listaSeriesDiv.classList.add('series-associadas');
+                        
+                        if (seriesAssociadas && seriesAssociadas.length > 0) {
+                            seriesAssociadas.forEach(serie => {
+                                const serieItem = document.createElement('div');
+                                serieItem.classList.add('serie');
+                                serieItem.innerHTML = `
+                                    <h5>${serie.nome}</h5>
+                                    <img src="${serie.poster_url}" alt="Poster da série" class="poster-serie">
+                                `;
+                                listaSeriesDiv.appendChild(serieItem);
+                            });
+                        } else {
+                            const mensagem = document.createElement('p');
+                            mensagem.textContent = 'Não há séries associadas a esta lista.';
+                            listaSeriesDiv.appendChild(mensagem);
+                        }
+        
+                        listaDiv.appendChild(listaSeriesDiv);
+                        listasContainer.appendChild(listaDiv);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar as listas:', error));
+        }
+    
+       
+
+formCriarLista.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const nomeLista = formCriarLista.querySelector('input[name="nova_lista"]').value;
+
+    if (!nomeLista.trim()) {
+        alert('Digite um nome para a lista.');
+        return;
+    }
+
+    fetch('listas.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `action=nova_lista&nova_lista=${encodeURIComponent(nomeLista)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            exibirMensagem('success', data.success);
+            fetchListas(); // Atualiza as listas
+            alert("Sua lista foi Criada!");
+        } else {
+            exibirMensagem('error', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao criar lista:', error);
+        exibirMensagem('error', 'Erro ao criar lista.');
     });
-    
-
-    // Inicializa a busca de listas ao carregar a página
-    fetchListas();
-
-    
 });
 
 
+// Inicializa a busca de listas ao carregar a página
+fetchListas();
+
+
+});

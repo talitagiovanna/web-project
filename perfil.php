@@ -194,6 +194,8 @@ $conn->close();
         <h3>Amigos</h3>
         <p>Conteúdo dos amigos...</p>
     </div>
+
+    
     <div id="listas-section" class="slide-section">
     <h2>Minhas Listas</h2>
 
@@ -221,6 +223,16 @@ $conn->close();
         <!-- As listas serão carregadas dinamicamente aqui -->
     </div>
 </div>
+
+<div id="modal-editar-series" class="modal-editar-series">
+    <div class="modal-editar-series-conteudo">
+        <span id="fechar-modal" class="fechar-modal">&times;</span>
+        <h2>Adicionar Séries</h2>
+        <input type="text" id="pesquisar-series" placeholder="Pesquisar séries...">
+        <div id="conteudo-modal"></div> <!-- Aqui você vai colocar os conteúdos das séries -->
+    </div>
+</div>
+
 
     <script src="perfil.js"></script>
 </body>
