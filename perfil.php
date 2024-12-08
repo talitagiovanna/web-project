@@ -91,6 +91,13 @@ $conn->close();
             <li><a href="series.html">Séries</a></li>
             <li><a href="pesquisarseries.php">Pesquisar</a></li>
             <li><a href="logout.php">Sair</a></li>
+            <li class="dropdown">
+        <a href="#" id="notification-toggle">Notificações (<span id="notification-count">0</span>)</a>
+        <div id="notification-menu" class="dropdown-menu">
+            <!-- Lista de notificações será carregada aqui -->
+            <p>Sem notificações novas.</p>
+        </div>
+    </li>
         </ul>      
     </nav>
 

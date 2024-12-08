@@ -409,3 +409,47 @@ body {
     font-size: 14px;
     text-align: left;
 }
+
+
+
+/* Estilo básico para o menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    border-radius: 12px;
+    top: 100%;
+    right: 0;
+    background-color: #615c5c;
+    min-width: 250px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    font-size: 14px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdown-menu p {
+    margin: 0;
+    padding: 5px 10px;
+    color: #666;
+}
+
+.dropdown-menu div {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu div:last-child {
+    border-bottom: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
