@@ -551,3 +551,14 @@ loadNotifications();
 setInterval(deleteOldNotifications, 24 * 60 * 60 * 1000); // Exclui notificações antigas a cada 24 horas
 
 });
+
+function showTab(tabId) {
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(button => button.classList.remove('active'));
+
+    document.getElementById(`${tabId}-tab`).classList.add('active');
+    document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+}

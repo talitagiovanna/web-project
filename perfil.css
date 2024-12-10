@@ -983,3 +983,32 @@ form button:hover {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.tab-btn:hover, .tab-btn.active {
+    background: #ddd;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+.tab-content.active {
+    display: block;
+}

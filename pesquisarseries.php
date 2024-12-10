@@ -127,6 +127,17 @@
             <!-- Resultados da pesquisa serão exibidos aqui -->
         </div>
     </div>
+    <div class="container">
+    <h1>Pesquisar Amigos</h1>
+    <div class="busca-container">
+        <input type="text" id="nome-usuario" placeholder="Nome ou Username">
+        <button id="pesquisar-amigos">Buscar</button>
+    </div>
+
+    <div class="resultado-container" id="resultado-amigos-container" style="display: none;">
+        <!-- Resultados da pesquisa de amigos serão exibidos aqui -->
+    </div>
+</div>
 
     <script>
         document.getElementById('pesquisar-series').addEventListener('click', function () {
@@ -160,6 +171,68 @@
             // Enviar os dados para o PHP
             xhr.send(`nome=${encodeURIComponent(nomeSerie)}&genero=${encodeURIComponent(genero)}&ano=${encodeURIComponent(anoLancamento)}`);
         });
+
+        document.getElementById('pesquisar-amigos').addEventListener('click', function () {
+        const nomeUsuario = document.getElementById('nome-usuario').value;
+
+        // Criar uma requisição AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'pesquisar_amigos.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById('resultado-amigos-container').style.display = 'block';
+                document.getElementById('resultado-amigos-container').innerHTML = xhr.responseText;
+
+                // Adicionar ações se necessário
+            } else {
+                console.error('Erro na solicitação AJAX');
+            }
+        };
+
+        // Enviar os dados para o PHP
+        xhr.send(`nomeUsuario=${encodeURIComponent(nomeUsuario)}`);
+    });
+
+    document.getElementById('pesquisar-amigos').addEventListener('click', function () {
+    const nomeUsuario = document.getElementById('nome-usuario').value;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'pesquisar_amigos.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById('resultado-amigos-container').style.display = 'block';
+            document.getElementById('resultado-amigos-container').innerHTML = xhr.responseText;
+
+            // Adicionar evento de clique aos botões de seguir
+            document.querySelectorAll('.seguir-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const userId = this.dataset.id;
+
+                    // Enviar requisição AJAX para seguir
+                    const followXhr = new XMLHttpRequest();
+                    followXhr.open('POST', 'seguir_usuario.php', true);
+                    followXhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    followXhr.onload = function () {
+                        if (followXhr.status === 200) {
+                            // Alterar botão para "Seguindo"
+                            btn.innerText = 'Seguindo';
+                            btn.disabled = true;
+                        }
+                    };
+                    followXhr.send(`seguido_id=${encodeURIComponent(userId)}`);
+                });
+            });
+        } else {
+            console.error('Erro na solicitação AJAX');
+        }
+    };
+
+    xhr.send(`nomeUsuario=${encodeURIComponent(nomeUsuario)}`);
+});
     </script>
 </body>
 </html>

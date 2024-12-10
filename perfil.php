@@ -54,6 +54,45 @@ if ($resultSeries->num_rows > 0) {
 // Fechar conexões preparadas
 $stmtUser->close();
 $stmtSeries->close();
+
+// Busca os usuários que o usuário segue
+$sqlSeguindo = "
+    SELECT u.id, u.username, u.name 
+    FROM seguindo s
+    INNER JOIN users u ON s.seguido_id = u.id
+    WHERE s.seguidor_id = ?
+";
+$stmtSeguindo = $conn->prepare($sqlSeguindo);
+$stmtSeguindo->bind_param("i", $userId);
+$stmtSeguindo->execute();
+$resultSeguindo = $stmtSeguindo->get_result();
+
+$seguindo = [];
+while ($row = $resultSeguindo->fetch_assoc()) {
+    $seguindo[] = $row;
+}
+
+// Busca os seguidores do usuário
+$sqlSeguidores = "
+    SELECT u.id, u.username, u.name 
+    FROM seguindo s
+    INNER JOIN users u ON s.seguidor_id = u.id
+    WHERE s.seguido_id = ?
+";
+$stmtSeguidores = $conn->prepare($sqlSeguidores);
+$stmtSeguidores->bind_param("i", $userId);
+$stmtSeguidores->execute();
+$resultSeguidores = $stmtSeguidores->get_result();
+
+$seguidores = [];
+while ($row = $resultSeguidores->fetch_assoc()) {
+    $seguidores[] = $row;
+}
+
+// Fechar conexões preparadas
+$stmtSeguindo->close();
+$stmtSeguidores->close();
+
 $conn->close();
 ?>
 
@@ -75,6 +114,20 @@ $conn->close();
             margin: 0 auto;
             padding: 0;
             justify-content: center;
+        }
+
+        .seguir-btn {
+            padding: 8px 16px;
+            background-color: orange;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .seguir-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -194,13 +247,38 @@ $conn->close();
     </div>
 </div>
 
-
-
-
-    <div id="amigos-section" class="slide-section">
-        <h3>Amigos</h3>
-        <p>Conteúdo dos amigos...</p>
+<div id="amigos-section" class="slide-section">
+    <h3>Amigos</h3>
+    <div class="tabs">
+        <button class="tab-btn" onclick="showTab('seguindo')">Seguindo</button>
+        <button class="tab-btn" onclick="showTab('seguidores')">Seguidores</button>
     </div>
+    <div id="seguindo-tab" class="tab-content">
+        <h4>Seguindo</h4>
+        <?php if (empty($seguindo)): ?>
+            <p>Você não está seguindo ninguém.</p>
+        <?php else: ?>
+            <ul>
+                <?php foreach ($seguindo as $user): ?>
+                    <li><?php echo htmlspecialchars($user['name'] ?? $user['username']); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+    <div id="seguidores-tab" class="tab-content">
+        <h4>Seguidores</h4>
+        <?php if (empty($seguidores)): ?>
+            <p>Ninguém está seguindo você ainda.</p>
+        <?php else: ?>
+            <ul>
+                <?php foreach ($seguidores as $user): ?>
+                    <li><?php echo htmlspecialchars($user['name'] ?? $user['username']); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+</div>
+
 
     
     <div id="listas-section" class="slide-section">
