@@ -4,29 +4,89 @@ document.addEventListener('DOMContentLoaded', () => {
     const createAccountLink = document.getElementById('create-account-link');
     const createAccountDialog = document.getElementById('create-account-dialog');
     const closeButtons = document.querySelectorAll('.close-button');
+    const loginForm = document.getElementById('login-form');
+    const createAccountForm = document.getElementById('create-account-form');
 
+    // Abrir diálogo de login
     loginLink.addEventListener('click', (e) => {
         e.preventDefault();
         loginDialog.style.display = 'flex';
     });
 
+    // Abrir diálogo de criação de conta
     createAccountLink.addEventListener('click', (e) => {
         e.preventDefault();
         createAccountDialog.style.display = 'flex';
     });
 
+    // Fechar diálogos ao clicar nos botões de fechar
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
             button.parentElement.parentElement.style.display = 'none';
         });
     });
 
+    // Fechar diálogos ao clicar fora do conteúdo
     window.addEventListener('click', (e) => {
         if (e.target === loginDialog || e.target === createAccountDialog) {
             e.target.style.display = 'none';
         }
     });
+
+    // Envio do formulário de login
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Impedir envio padrão do formulário
+
+        const formData = new FormData(loginForm);
+
+        try {
+            const response = await fetch(loginForm.action, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'error') {
+                alert(result.message); // Exibe mensagem de erro
+            } else if (result.status === 'success') {
+            
+                window.location.href = "welcome.html"; // Redireciona para a página de boas-vindas
+            }
+        } catch (error) {
+            alert('Erro ao processar o login. Tente novamente.');
+        }
+    });
+
+    // Envio do formulário de criação de conta
+    createAccountForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(createAccountForm);
+
+        try {
+            const response = await fetch(createAccountForm.action, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'error') {
+                alert(result.message);
+            } else if (result.status === 'success') {
+                alert(result.message);
+                createAccountDialog.style.display = 'none';
+                createAccountForm.reset();
+            }
+        } catch (error) {
+            alert('Erro ao processar a solicitação. Tente novamente.');
+        }
+    });
 });
+
+
+//==============================================================================================================
 
 // Função para adicionar uma notificação
 function addNotification(message) {

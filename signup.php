@@ -7,8 +7,16 @@ error_reporting(E_ALL);
 // Incluir arquivo de conexão com o banco de dados
 require 'database.php';
 
+// Função para enviar resposta em JSON
+function sendResponse($status, $message) {
+    echo json_encode(['status' => $status, 'message' => $message]);
+    exit();
+}
+
 // Verificar se a requisição é POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+
     // Obter dados do formulário e sanitizar
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $username = trim($_POST['username']);
@@ -16,13 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validar os campos
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("E-mail inválido.");
+        sendResponse('error', 'E-mail inválido.');
     }
     if (strlen($username) < 3) {
-        die("Nome de usuário deve ter pelo menos 3 caracteres.");
+        sendResponse('error', 'Nome de usuário deve ter pelo menos 3 caracteres.');
     }
     if (strlen($password) < 6) {
-        die("Senha deve ter pelo menos 6 caracteres.");
+        sendResponse('error', 'Senha deve ter pelo menos 6 caracteres.');
     }
 
     // Verificar se o e-mail já está cadastrado
@@ -32,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_result($emailCount);
     $stmt->fetch();
     if ($emailCount > 0) {
-        die("E-mail já cadastrado. Por favor, forneça um novo e-mail.");
+        sendResponse('error', 'E-mail já cadastrado. Por favor, forneça um novo e-mail.');
     }
     $stmt->close();
 
@@ -43,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_result($usernameCount);
     $stmt->fetch();
     if ($usernameCount > 0) {
-        die("Usuário já cadastrado. Por favor, escolha um nome de usuário diferente.");
+        sendResponse('error', 'Usuário já cadastrado. Por favor, escolha um nome de usuário diferente.');
     }
     $stmt->close();
 
@@ -55,16 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("sss", $email, $username, $passwordHash);
 
     if ($stmt->execute()) {
-        // Redirecionar para a nova página
-        header("Location: welcome.html?userid=" . $user['id']);
-        exit();
+        sendResponse('success', 'Conta criada com sucesso!');
     } else {
-        echo "Erro ao criar a conta: " . $stmt->error;
+        sendResponse('error', 'Erro ao criar a conta: ' . $stmt->error);
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    echo "Método de requisição inválido.";
+    sendResponse('error', 'Método de requisição inválido.');
 }
 ?>
+

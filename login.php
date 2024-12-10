@@ -4,48 +4,60 @@ session_start();
 // Incluir arquivo de conexão com o banco de dados
 require 'database.php';
 
+// Função para enviar resposta em JSON
+function sendResponse($status, $message = '') {
+    echo json_encode(['status' => $status, 'message' => $message]);
+    exit();
+}
+
 // Verificar se a requisição é POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+
     // Obter dados do formulário
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
     // Validar os campos
     if (empty($username)) {
-        $error_message = "Nome de usuário é obrigatório.";
-    } elseif (empty($password)) {
-        $error_message = "Senha é obrigatória.";
-    } else {
-        // Verificar se o usuário existe
-        $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            // Usuário encontrado, verificar a senha
-            $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
-                // Senha correta, armazenar user_id na sessão
-                $_SESSION['user_id'] = $user['id']; // Armazena o ID do usuário
-                $_SESSION['username'] = $username; // (Opcional) Armazenar o nome de usuário
-
-                // Redireciona para a página de boas-vindas com o user_id na URL
-                header("Location: welcome.html?userid=" . $user['id']);
-                exit();
-            } else {
-                $error_message = "Senha incorreta.";
-            }
-        } else {
-            $error_message = "Usuário não está cadastrado.";
-        }
-        $stmt->close();
+        sendResponse('error', 'Nome de usuário é obrigatório.');
     }
+    if (empty($password)) {
+        sendResponse('error', 'Senha é obrigatória.');
+    }
+
+    // Verificar se o usuário existe
+    // ALTERAÇÃO: A consulta SQL já é case-sensitive por padrão, então não há necessidade de mudanças.
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Usuário encontrado, verificar a senha
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            // Senha correta, armazenar informações na sessão
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $username;
+
+            sendResponse('success'); // Apenas o status de sucesso, sem mensagem
+        } else {
+            sendResponse('error', 'Senha incorreta. Tente novamente.');
+        }
+    } else {
+        sendResponse('error', 'Usuário não cadastrado. Verifique o nome de usuário.');
+    }
+
+    $stmt->close();
     $conn->close();
 } else {
-    $error_message = "Método de requisição inválido.";
+    sendResponse('error', 'Método de requisição inválido.');
 }
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
