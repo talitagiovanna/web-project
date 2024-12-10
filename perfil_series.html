@@ -36,7 +36,8 @@
             <div class="comentarios">
                 <div class="comentario-box">
                     <form action="perfil_series.php?id={{ID_SERIE}}" method="POST">
-                        <textarea name="comentario" placeholder="Deixe seu comentário sobre a série..." required></textarea>
+                        <textarea name="comentario" id="comentario" placeholder="Deixe seu comentário sobre a série..." required maxlength="500"></textarea>
+                        <p id="char-count">500 caracteres restantes</p>
                         <button type="submit">Enviar Comentário</button>
                     </form>
                 </div>
@@ -45,6 +46,7 @@
                     {{COMENTARIOS_RECBIDOS}}
                 </div>
             </div>
+            
         </div>
         <footer class="footer">
             <p>&copy; 2024 MySeriesList Limited. Todos os direitos reservados.</p>

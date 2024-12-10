@@ -242,6 +242,24 @@ $conn->close();
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const comentarioInput = document.getElementById('comentario');
+    const charCountMessage = document.getElementById('char-count');
+
+    // Atualiza o contador de caracteres
+    comentarioInput.addEventListener('input', function() {
+        const caracteresRestantes = 500 - comentarioInput.value.length;
+        charCountMessage.textContent = caracteresRestantes + ' caracteres restantes';
+
+        // Se o limite de 500 for atingido, muda a cor da mensagem
+        if (caracteresRestantes <= 0) {
+            charCountMessage.style.color = 'red';
+        } else {
+            charCountMessage.style.color = 'black';
+        }
+    });
+});
+
     // Função para abrir o modal e carregar o comentário atual
     function openEditModal(comentarioId, comentarioTexto) {
     document.getElementById("editComentario").value = comentarioTexto;  // Preenche o textarea
