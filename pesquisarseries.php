@@ -207,23 +207,33 @@
             document.getElementById('resultado-amigos-container').style.display = 'block';
             document.getElementById('resultado-amigos-container').innerHTML = xhr.responseText;
 
-            // Adicionar evento de clique aos botões de seguir
+            // Adicionar evento de clique aos botões de seguir e deixar de seguir
             document.querySelectorAll('.seguir-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const userId = this.dataset.id;
+                    const action = this.dataset.action;
 
-                    // Enviar requisição AJAX para seguir
+                    // Enviar requisição AJAX para seguir ou deixar de seguir
                     const followXhr = new XMLHttpRequest();
-                    followXhr.open('POST', 'seguir_usuario.php', true);
+                    followXhr.open('POST', 'pesquisar_amigos.php', true);
                     followXhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     followXhr.onload = function () {
                         if (followXhr.status === 200) {
-                            // Alterar botão para "Seguindo"
-                            btn.innerText = 'Seguindo';
-                            btn.disabled = true;
+                            // Atualizar o estado do botão dinamicamente
+                            if (action === 'seguir') {
+                                btn.innerText = 'Seguindo';
+                                btn.dataset.action = 'deixar_de_seguir';
+                                btn.classList.add('seguindo');
+                            } else if (action === 'deixar_de_seguir') {
+                                btn.innerText = 'Seguir';
+                                btn.dataset.action = 'seguir';
+                                btn.classList.remove('seguindo');
+                            }
+                        } else {
+                            console.error('Erro ao atualizar o estado de seguimento');
                         }
                     };
-                    followXhr.send(`seguido_id=${encodeURIComponent(userId)}`);
+                    followXhr.send(`action=${encodeURIComponent(action)}&seguido_id=${encodeURIComponent(userId)}`);
                 });
             });
         } else {
